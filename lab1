@@ -1,0 +1,71 @@
+-- Инфологическая модель
+
+CREATE TABLE Raptor (
+    name,         -- Имя раптора
+    state,        -- Состояние раптора (например, выпрямлен, наклонен)
+    current_action  -- Текущее действие раптора
+);
+
+CREATE TABLE Egg (
+    state,        -- Состояние яйца (целое, разбито)
+    contents      -- Содержимое яйца (белок)
+);
+
+CREATE TABLE Floor (
+    state        -- Состояние пола (чистый, запачканный)
+);
+
+CREATE TABLE Grant (
+    name,         -- Имя наблюдателя (Грант)
+    location      -- Местоположение (например, под столом)
+);
+
+CREATE TABLE Action (
+    action_type,  -- Тип действия (лизание, причмокивание)
+    target,       -- Объект действия (яйцо, пол)
+    raptor_name   -- Имя раптора, совершившего действие
+);
+
+-- Даталогическая модель (с ключами, типами данных и связями)
+CREATE TABLE Raptor (
+    id SERIAL PRIMARY KEY,       -- Уникальный идентификатор раптора
+    name VARCHAR(50),            -- Имя раптора
+    state VARCHAR(50),           -- Состояние (выпрямлен, наклонен)
+    current_action VARCHAR(100)  -- Текущее действие
+);
+
+CREATE TABLE Egg (
+    id SERIAL PRIMARY KEY,       -- Уникальный идентификатор яйца
+    state VARCHAR(50),           -- Состояние яйца (целое, разбито)
+    contents VARCHAR(50)         -- Содержимое (белок)
+);
+
+CREATE TABLE Floor (
+    id SERIAL PRIMARY KEY,       -- Уникальный идентификатор пола
+    state VARCHAR(50)            -- Состояние пола (чистый, запачканный)
+);
+
+CREATE TABLE Grant (
+    id SERIAL PRIMARY KEY,       -- Уникальный идентификатор наблюдателя
+    name VARCHAR(50),            -- Имя наблюдателя (Грант)
+    location VARCHAR(100)        -- Местоположение (например, под столом)
+);
+
+CREATE TABLE Action (
+    id SERIAL PRIMARY KEY,       -- Уникальный идентификатор действия
+    action_type VARCHAR(50),     -- Тип действия (лизание, причмокивание)
+    target VARCHAR(50),          -- Объект действия (яйцо, пол)
+    raptor_id INT REFERENCES Raptor(id)  -- Внешний ключ на раптора
+);
+
+CREATE TABLE Raptor_Floor (
+    raptor_id INT REFERENCES Raptor(id),  -- Внешний ключ на раптора
+    floor_id INT REFERENCES Floor(id),    -- Внешний ключ на пол
+    PRIMARY KEY (raptor_id, floor_id)     -- Составной первичный ключ
+);
+
+CREATE TABLE Raptor_Egg (
+    raptor_id INT REFERENCES Raptor(id),  -- Внешний ключ на раптора
+    egg_id INT REFERENCES Egg(id),        -- Внешний ключ на яйцо
+    PRIMARY KEY (raptor_id, egg_id)       -- Составной первичный ключ
+);
