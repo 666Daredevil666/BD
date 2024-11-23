@@ -4,6 +4,7 @@ CREATE TABLE Raptor (
     name VARCHAR(50),
     state VARCHAR(50),
     current_action VARCHAR(100)
+    FOREIGN KEY(name) REFERENCES Action(raptor_name)
 );
 
 -- Таблица Egg
@@ -50,6 +51,7 @@ CREATE TABLE Action (
     target VARCHAR(50),
     raptor_name VARCHAR(50),
     spectator VARCHAR(50)
+    FOREIGN KEY(spectator) REFERENCES Human(id)
 );
 
 -- Заполнение таблицы Raptor
