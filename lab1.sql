@@ -1,47 +1,55 @@
+-- Таблица Raptor
 CREATE TABLE Raptor (
-  id INT PRIMARY KEY,
-  name VARCHAR(50),
-  state VARCHAR(50),
-  current_action VARCHAR(100)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    state VARCHAR(50),
+    current_action VARCHAR(100)
 );
 
+-- Таблица Egg
 CREATE TABLE Egg (
-  id INT PRIMARY KEY,
-  state VARCHAR(50),
-  contents VARCHAR(50),
-  location VARCHAR(50)
+    id SERIAL PRIMARY KEY,
+    state VARCHAR(50),
+    contents VARCHAR(50),
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES Floor(id)
 );
 
+-- Таблица Floor
 CREATE TABLE Floor (
-  id INT PRIMARY KEY,
-  state VARCHAR(50),
-  color VARCHAR(50),
-  egg_id INT,
-  FOREIGN KEY (egg_id) REFERENCES Egg(id)
+    id SERIAL PRIMARY KEY,
+    state VARCHAR(50),
+    color VARCHAR(50),
+    egg_id INT,
+    FOREIGN KEY (egg_id) REFERENCES Egg(id)
 );
 
-CREATE TABLE Action (
-  id INT PRIMARY KEY,
-  action_type VARCHAR(50),
-  target VARCHAR(50),
-  raptor_name VARCHAR(50),
-  spectator VARCHAR(50)
-);
-
-CREATE TABLE Grant (
-  id INT PRIMARY KEY,
-  name VARCHAR(50),
-  location VARCHAR(50)
-);
-
+-- Таблица Raptor_Egg (Связь "многие-ко-многим" между Raptor и Egg)
 CREATE TABLE Raptor_Egg (
-  raptor_id INT,
-  egg_id INT,
-  type VARCHAR(50),
-  time DATE,
-  PRIMARY KEY (raptor_id, egg_id),
-  FOREIGN KEY (raptor_id) REFERENCES Raptor(id),
-  FOREIGN KEY (egg_id) REFERENCES Egg(id)
+    raptor_id INT,
+    egg_id INT,
+    type VARCHAR(50),
+    time DATE,
+    PRIMARY KEY (raptor_id, egg_id),
+    FOREIGN KEY (raptor_id) REFERENCES Raptor(id),
+    FOREIGN KEY (egg_id) REFERENCES Egg(id)        
+);
+
+-- Таблица Human
+CREATE TABLE Human (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES Floor(id) 
+);
+
+-- Таблица Action
+CREATE TABLE Action (
+    id SERIAL PRIMARY KEY,
+    action_type VARCHAR(50),
+    target VARCHAR(50),
+    raptor_name VARCHAR(50),
+    spectator VARCHAR(50)
 );
 
 -- Заполнение таблицы Raptor
