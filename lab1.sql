@@ -60,7 +60,7 @@ INSERT INTO Raptor (id, name, state, current_action) VALUES (2, 'Charlie', 'Inac
 INSERT INTO Raptor (id, name, state, current_action) VALUES (3, 'Delta', 'Active', 'Protecting');
 
 -- Заполнение таблицы Egg
-INSERT INTO Egg (id, state, contents, location) VALUES (1, 'Intact', 'Raptor Embryo', 'Nest');
+INSERT INTO Egg (id, state, contents, location) VALUES (1, 'Intact', 'Raptor Embryo', 'Floor');
 INSERT INTO Egg (id, state, contents, location) VALUES (2, 'Cracked', 'Empty', 'Forest');
 INSERT INTO Egg (id, state, contents, location) VALUES (3, 'Hatched', 'Raptor Embryo', 'Lab');
 
@@ -70,12 +70,12 @@ INSERT INTO Floor (id, state, color, egg_id) VALUES (2, 'Dirty', 'Brown', 2);
 INSERT INTO Floor (id, state, color, egg_id) VALUES (3, 'Clean', 'White', 3);
 
 -- Заполнение таблицы Action
-INSERT INTO Action (id, action_type, target, raptor_name, spectator) VALUES (1, 'Attack', 'Egg', 'Blue', 'Grant');
-INSERT INTO Action (id, action_type, target, raptor_name, spectator) VALUES (2, 'Protect', 'Nest', 'Charlie', 'Grant');
+INSERT INTO Action (id, action_type, target, raptor_name, spectator) VALUES (1, 'Attack', 'Egg', 'Blue', 'Human');
+INSERT INTO Action (id, action_type, target, raptor_name, spectator) VALUES (2, 'Protect', 'Nest', 'Charlie', 'Human');
 INSERT INTO Action (id, action_type, target, raptor_name, spectator) VALUES (3, 'Rest', 'Cave', 'Delta', 'None');
 
 -- Заполнение таблицы Grant
-INSERT INTO Grant (id, name, location) VALUES (1, 'Dr. Grant', 'Research Center');
+INSERT INTO Grant (id, name, location) VALUES (1, 'Dr. Grant', 'Floor');
 INSERT INTO Grant (id, name, location) VALUES (2, 'Dr. Sattler', 'Field Station');
 INSERT INTO Grant (id, name, location) VALUES (3, 'Dr. Malcolm', 'Observation Post');
 
