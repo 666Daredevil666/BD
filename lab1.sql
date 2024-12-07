@@ -4,7 +4,7 @@ CREATE TABLE Raptor (
     name VARCHAR(50),
     state VARCHAR(50),
     current_action VARCHAR(100)
-    FOREIGN KEY(name) REFERENCES Action(raptor_name)
+    FOREIGN KEY (id) REFERENCES Action(raptor_name)
 );
 
 -- Таблица Egg
@@ -21,7 +21,6 @@ CREATE TABLE Floor (
     id SERIAL PRIMARY KEY,
     state VARCHAR(50),
     color VARCHAR(50),
-    egg_id INT,
     FOREIGN KEY (egg_id) REFERENCES Egg(id)
 );
 
