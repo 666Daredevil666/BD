@@ -1,84 +1,89 @@
--- таблица raptor
-create table raptor (
-    id serial primary key,
-    name varchar(50),
-    state varchar(50),
-    current_action varchar(100),
-    foreign key (id) references action(raptor_name)
+-- Таблица floor
+CREATE TABLE floor (
+    id SERIAL PRIMARY KEY,
+    state VARCHAR(50),
+    color VARCHAR(50)
 );
 
--- таблица egg
-create table egg (
-    id serial primary key,
-    state varchar(50),
-    contents varchar(50),
-    location_id int,
-    foreign key (location_id) references floor(id)
+-- Таблица egg
+CREATE TABLE egg (
+    id SERIAL PRIMARY KEY,
+    state VARCHAR(50),
+    contents VARCHAR(50),
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES floor(id)
 );
 
--- таблица floor
-create table floor (
-    id serial primary key,
-    state varchar(50),
-    color varchar(50),
-    foreign key (egg_id) references egg(id)
+-- Таблица raptor
+CREATE TABLE raptor (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    state VARCHAR(50),
+    current_action VARCHAR(100)
 );
 
--- таблица raptor_egg (связь "многие-ко-многим" между raptor и egg)
-create table raptor_egg (
-    raptor_id int,
-    egg_id int,
-    type varchar(50),
-    time date,
-    primary key (raptor_id, egg_id),
-    foreign key (raptor_id) references raptor(id),
-    foreign key (egg_id) references egg(id)        
+-- Таблица human
+CREATE TABLE human (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES floor(id)
 );
 
--- таблица human
-create table human (
-    id serial primary key,
-    name varchar(50),
-    location_id int,
-    foreign key (location_id) references floor(id) 
+-- Таблица aaction
+CREATE TABLE aaction (
+    id SERIAL PRIMARY KEY,
+    action_type VARCHAR(50),
+    target VARCHAR(50),
+    raptor_name INT,
+    spectator INT,
+    FOREIGN KEY (raptor_name) REFERENCES raptor(id),
+    FOREIGN KEY (spectator) REFERENCES human(id)
 );
 
--- таблица action
-create table action (
-    id serial primary key,
-    action_type varchar(50),
-    target varchar(50),
-    raptor_name varchar(50),
-    spectator varchar(50),
-    foreign key(spectator) references human(id)
+-- Таблица raptor_egg
+CREATE TABLE raptor_egg (
+    raptor_id INT,
+    egg_id INT,
+    type VARCHAR(50),
+    time DATE,
+    PRIMARY KEY (raptor_id, egg_id),
+    FOREIGN KEY (raptor_id) REFERENCES raptor(id),
+    FOREIGN KEY (egg_id) REFERENCES egg(id)
 );
 
--- заполнение таблицы raptor
-insert into raptor (id, name, state, current_action) values (1, 'blue', 'active', 'hunting');
-insert into raptor (id, name, state, current_action) values (2, 'charlie', 'inactive', 'resting');
-insert into raptor (id, name, state, current_action) values (3, 'delta', 'active', 'protecting');
+-- Добавить данные в floor
+INSERT INTO floor (id, state, color) VALUES 
+(1, 'clean', 'gray'),
+(2, 'dirty', 'brown'),
+(3, 'clean', 'white');
 
--- заполнение таблицы egg
-insert into egg (id, state, contents, location_id) values (1, 'intact', 'raptor embryo', 1);
-insert into egg (id, state, contents, location_id) values (2, 'cracked', 'empty', 2);
-insert into egg (id, state, contents, location_id) values (3, 'hatched', 'raptor embryo', 3);
+-- Добавить данные в egg
+INSERT INTO egg (id, state, contents, location_id) VALUES 
+(1, 'intact', 'raptor embryo', 1),
+(2, 'cracked', 'empty', 2),
+(3, 'hatched', 'raptor embryo', 3);
 
--- заполнение таблицы floor
-insert into floor (id, state, color) values (1, 'clean', 'gray');
-insert into floor (id, state, color) values (2, 'dirty', 'brown');
-insert into floor (id, state, color) values (3, 'clean', 'white');
+-- Добавить данные в raptor
+INSERT INTO raptor (id, name, state, current_action) VALUES 
+(1, 'blue', 'active', 'hunting'),
+(2, 'charlie', 'inactive', 'resting'),
+(3, 'delta', 'active', 'protecting');
 
--- заполнение таблицы action
-insert into action (id, action_type, target, raptor_name, spectator) values (1, 'attack', 'egg', 'blue', '1');
-insert into action (id, action_type, target, raptor_name, spectator) values (2, 'protect', 'nest', 'charlie', '2');
-insert into action (id, action_type, target, raptor_name, spectator) values (3, 'rest', 'cave', 'delta', 'none');
+-- Добавить данные в human
+INSERT INTO human (id, name, location_id) VALUES 
+(1, 'dr. grant', 1),
+(2, 'dr. sattler', 2),
+(3, 'dr. malcolm', 3);
 
--- заполнение таблицы human
-insert into human (id, name, location_id) values (1, 'dr. grant', 1);
-insert into human (id, name, location_id) values (2, 'dr. sattler', 2);
-insert into human (id, name, location_id) values (3, 'dr. malcolm', 3);
+-- Добавить данные в aaction
+INSERT INTO aaction (id, action_type, target, raptor_name, spectator) VALUES 
+(1, 'attack', 'egg', 1, 1), -- Используется raptor.id и human.id
+(2, 'protect', 'nest', 2, 2),
+(3, 'rest', 'cave', 3, 3);
 
--- заполнение таблицы raptor_egg
-insert into raptor_egg (raptor_id, egg_id, type, time) values (1, 1, 'protecting', '2024-11-15');
-insert into raptor_egg (raptor_id, egg_id, type, time) values (2, 2, 'ignoring', '2024-11-14');
-insert into raptor_egg (raptor_id, egg_id, type, time) values (3, 3, 'hunting', '2024-11-13');
+-- Добавить данные в raptor_egg
+INSERT INTO raptor_egg (raptor_id, egg_id, type, time) VALUES 
+(1, 1, 'protecting', '2024-11-15'),
+(2, 2, 'ignoring', '2024-11-14'),
+(3, 3, 'hunting', '2024-11-13');
