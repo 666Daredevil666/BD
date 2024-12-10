@@ -14,4 +14,13 @@ CREATE TRIGGER trigger_egg_state_change
 AFTER UPDATE ON egg
 FOR EACH ROW
 EXECUTE FUNCTION log_egg_state_change();
-
+-------
+UPDATE egg
+SET state = 'cracked'
+WHERE id = 1;
+UPDATE 1
+-------
+UPDATE egg
+SET state = 'hatched'
+WHERE id = 1;
+UPDATE 1
